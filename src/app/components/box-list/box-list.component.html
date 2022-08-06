@@ -1,5 +1,18 @@
-<mat-list role="list">
-  <mat-list-item role="listitem" routerLink="1">Item 1</mat-list-item>
-  <mat-list-item role="listitem" routerLink="2">Item 2</mat-list-item>
-  <mat-list-item role="listitem" routerLink="3">Item 3</mat-list-item>
-</mat-list>
+<mat-grid-list cols="4" rowHeight="2:1">
+  <mat-grid-tile *ngFor="let box of boxes$ | async">
+    <mat-card>
+      <mat-card-title>{{ box.id }}</mat-card-title>
+      <mat-divider inset></mat-divider>
+      <mat-card-content>
+        <p>Rate: {{ box.name | number: "1.2-2" }}</p>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-raised-button [routerLink]="box.id" color="primary">
+          Calculate
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </mat-grid-tile>
+</mat-grid-list>
+
+<app-loader [isLoading]="isLoading"></app-loader>

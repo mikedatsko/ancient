@@ -1,1 +1,13 @@
-<p>ID: {{ id }}</p>
+<mat-card>
+  <mat-card-title>{{ (box$ | async)?.name }}</mat-card-title>
+  <mat-divider inset></mat-divider>
+  <mat-card-content>
+    <p>ID: {{ (box$ | async)?.id }}</p>
+    <p>Min size: {{ (box$ | async)?.description }}</p>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-raised-button color="primary" routerLink="/boxes">Back</button>
+  </mat-card-actions>
+</mat-card>
+
+<app-loader [isLoading]="isLoading"></app-loader>

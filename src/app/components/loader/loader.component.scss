@@ -1,0 +1,13 @@
+:host {
+  mat-progress-spinner {
+    display: flex;
+    height: calc(100% - 4rem);
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 4rem;
+    left: 0;
+    background: rgba(255, 255, 255, 0.9);
+  }
+}

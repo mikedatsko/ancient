@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs/internal/Observable';
-import { Box } from 'src/app/interfaces/box.interface';
+import { Observable, tap } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { Box } from '../../interfaces/box.interface';
+import * as boxSelectors from '../../state/selectors/box.selectors';
+import * as boxActions from '../../state/actions/box.actions';
 
 @Component({
   selector: 'app-box',
@@ -9,17 +12,22 @@ import { Box } from 'src/app/interfaces/box.interface';
   styleUrls: ['./box.component.scss'],
 })
 export class BoxComponent implements OnInit {
-  boxes$: Observable<Box[]> | undefined;
-  id: string | null = '';
-  private subs: any[] = [];
+  box$: Observable<Box | undefined> = this.store.select(boxSelectors.getBox);
+  isLoading: boolean = true;
+  id: string = '';
 
-  constructor(private route: ActivatedRoute) {}
-
-  ngOnInit(): void {
-    this.id = this.route.snapshot.paramMap.get('id');
+  constructor(private route: ActivatedRoute, private readonly store: Store) {
+    this.box$.pipe(tap((box) => (this.isLoading = !box))).subscribe();
   }
 
-  ngOnDestroy() {
-    this.subs.forEach((sub) => sub.unsubscribe());
+  ngOnInit(): void {
+    const id = this.route.snapshot.paramMap.get('id');
+
+    if (!id) {
+      return;
+    }
+
+    this.id = id;
+    this.store.dispatch(boxActions.requestBox({ id }));
   }
 }

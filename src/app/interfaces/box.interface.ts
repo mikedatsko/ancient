@@ -1,9 +1,11 @@
 export interface Box {
-  id?: string;
+  id: string;
+  name: string;
+  description?: string;
 }
 
 export interface BoxState {
   list: Box[];
   selectedId?: string;
-  one?: Box;
+  box?: Box;
 }
